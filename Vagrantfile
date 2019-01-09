@@ -25,7 +25,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "ansible1" do |server|
       server.vm.hostname = "ansible1"
-      server.vm.network :private_network, ip: "192.168.33.35"
 
         # VirtualBoxのGUI上の名前を設定する
         server.vm.provider "virtualbox" do |vb|

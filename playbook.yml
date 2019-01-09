@@ -2,8 +2,30 @@
 - hosts: all
   become: true
   tasks:
-    - name: yum update
-      yum:
-        name: '*'
-        state: latest
-        update_cache: yes
+   - name: Apacheをインストールする
+     yum: name=httpd state=latest
+   - name: Apacheを環境始動時に自動で起動するようにする
+     action: service name=httpd state=started enabled=yes
+   - name: phpをインストールする
+     yum: name={{item}} enablerepo=epel state=latest
+     with_items:
+      - php
+      - phpMyAdmin
+      - php-mbstring
+      - php-mysql
+      - php-mcrypt
+   - name: Composerをインストールする
+     shell: >
+      curl -sS https://getcomposer.org/installer | php && mv composer.phar composer
+      chdir=/usr/local/bin
+      creates=/usr/local/bin/composer
+
+   - name: MariaDB のクライアント＆サーバーをインストール
+     yum: name={{item}} enablerepo=epel state=latest
+     with_items:
+      - mariadb
+      - mariadb-server
+      - MySQL-python
+
+   - name: Apacheを再起動する
+     action: service name=httpd state=restarted
