@@ -13,6 +13,11 @@
    - name: Apacheを環境始動時に自動で起動するようにする
      action: service name=httpd state=started enabled=yes
 
+   - name: vimをインストールする
+     yum: name=vim state=latest
+   - name: unzipをインストールする
+     yum: name=unzip state=latest
+
    - name: PHPをインストールする （php 7.1）
      yum: name={{ item }} enablerepo=remi,remi-php71 state=installed
      with_items:
