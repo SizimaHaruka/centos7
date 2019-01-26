@@ -19,10 +19,12 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
 
-
   config.vm.box = "centos/7"
-  config.vm.synced_folder ".", "/vagrant",  create: true, owner: "vagrant", group: "vagrant"
+  #type:"virtualbox"を指定するとリアルタイム同期する。マウントできない的なエラーが出た場合は
+  #ゲストOSにvirtualbox Guest Additionsがインストールされていない
 
+  config.vm.synced_folder ".", "/vagrant", type:"virtualbox", create: true, owner: "vagrant", group: "vagrant"
+  config.vm.synced_folder "c:\\vagrant\\webworks","/var/www/html/", type:"virtualbox", create: true, owner: "vagrant", group: "vagrant"
   config.vm.define "ansible1" do |server|
       server.vm.hostname = "ansible1"
 
